@@ -17,10 +17,12 @@ import pandas as pd
 from dataclasses import dataclass
 from src.utils.logger import get_logger
 from src.data.preprocess import get_feature_columns
+from src.sentiment.sentiment_signal import sentiment_signal
+from src.research.research_signal import research_signal
 
 logger = get_logger("ensemble")
 
-MIN_VOTES = 2
+MIN_VOTES = 3
 CONFIDENCE_THRESHOLD = 0.52   # CHANGED: was 0.55 — more signals fire
 TAKE_PROFIT_PCT = 0.025        # CHANGED: was 0.015 — 2.5% take-profit (reward:risk = 2.5:1)
 
@@ -240,6 +242,8 @@ class EnsembleModel:
             "volume":       self._volume_signal(df),
             "trend_filter": self._trend_filter_signal(df),
             "nifty":        self._nifty_signal(df),
+            "sentiment":    sentiment_signal(df),
+            "research":     research_signal(df),
         }
 
         votes_up, votes_down, confidences = 0, 0, []
@@ -308,6 +312,9 @@ class EnsembleModel:
                 "veto": sig.veto,
                 "xgb_proba": sig.model_signals.get("xgboost", {}).get("raw_proba"),
                 "rsi": sig.model_signals.get("rsi", {}).get("rsi"),
+                "sent_score": sig.model_signals.get("sentiment", {}).get("sent_score"),
+                "sent_count": sig.model_signals.get("sentiment", {}).get("sent_count"),
+                "market_bias": sig.model_signals.get("research", {}).get("bias_score"),
             })
         df = pd.DataFrame(rows)
         if not df.empty:
