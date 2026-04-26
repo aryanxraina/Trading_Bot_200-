@@ -1,0 +1,50 @@
+# ─────────────────────────────────────────
+#  AI Trading Bot — Master Configuration
+# ─────────────────────────────────────────
+
+capital:
+  starting: 100000          # ₹1,00,000
+  cash_reserve_pct: 0.20    # Always keep 20% in cash
+
+risk:
+  phase: 1                  # Current phase (1–4). Update as you progress.
+  phase_settings:
+    1: { risk_per_trade_pct: 0.005, max_open_positions: 2 }   # Day 1–50
+    2: { risk_per_trade_pct: 0.010, max_open_positions: 2 }   # Day 51–100
+    3: { risk_per_trade_pct: 0.020, max_open_positions: 3 }   # Day 101–150
+    4: { risk_per_trade_pct: 0.025, max_open_positions: 4 }   # Day 151–200
+  max_daily_loss_pct: 0.02   # -2% → bot halts for the day
+  max_weekly_loss_pct: 0.05  # -5% → bot pauses 3 days
+  min_risk_reward_ratio: 2.0 # Minimum 1:2 R:R on every trade
+
+broker:
+  name: zerodha
+  api_key: ${KITE_API_KEY}       # Set in .env
+  api_secret: ${KITE_SECRET}     # Set in .env
+  paper_trade: true              # Set to false when going live
+
+regime:
+  vix_threshold: 20         # If India VIX > 20 → reduce position sizes 50%
+  ma_period: 200            # If Nifty < 200-day MA → switch to cash/short
+  fii_sell_threshold: 3000  # If FII net selling > ₹3000Cr → no longs
+
+data:
+  symbols_file: config/nifty50_symbols.txt
+  history_years: 5
+  interval: "1d"            # daily candles for training
+  live_interval: "5m"       # 5-min candles for live signals
+
+models:
+  ensemble_min_votes: 3     # At least 3/5 models must agree to enter trade
+  retrain_day: "sunday"     # Weekly retraining schedule
+  saved_path: models/saved/
+
+telegram:
+  bot_token: ${TELEGRAM_BOT_TOKEN}   # Set in .env
+  chat_id: ${TELEGRAM_CHAT_ID}       # Set in .env
+  send_alerts: true
+
+logging:
+  trades_log: logs/trades/
+  error_log: logs/errors/
+  level: INFO

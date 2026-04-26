@@ -1,0 +1,47 @@
+# ─────────────────────────────────────────
+#  Requirements
+#  Install: pip install -r requirements.txt
+# ─────────────────────────────────────────
+
+# Core
+pandas==2.2.2
+numpy==1.26.4
+python-dotenv==1.0.1
+pyyaml==6.0.1
+
+# Data
+yfinance==0.2.40
+nsepython==2.9
+
+# ML — Core
+scikit-learn==1.5.0
+xgboost==2.0.3
+joblib==1.4.2
+
+# ML — Deep Learning (install PyTorch separately with CUDA)
+# pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+
+# ML — NLP
+transformers==4.41.2
+accelerate==0.30.1
+
+# ML — Reinforcement Learning
+stable-baselines3==2.3.2
+gymnasium==0.29.1
+
+# Broker API
+kiteconnect==5.0.1
+
+# Alerts
+python-telegram-bot==21.3
+
+# Visualisation
+matplotlib==3.9.0
+plotly==5.22.0
+
+# Notebook
+jupyter==1.0.0
+ipykernel==6.29.4
+
+# Testing
+pytest==8.2.2

@@ -1,0 +1,32 @@
+# Secrets — NEVER commit
+.env
+
+# Data (too large for git)
+data/raw/
+data/processed/
+data/sentiment/
+
+# Trained model weights
+models/saved/
+
+# Logs
+logs/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
